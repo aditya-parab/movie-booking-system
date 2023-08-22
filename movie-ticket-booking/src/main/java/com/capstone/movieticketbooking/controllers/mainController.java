@@ -1,17 +1,23 @@
 package com.capstone.movieticketbooking.controllers;
 
+import com.capstone.movieticketbooking.entities.Movie;
+import com.capstone.movieticketbooking.services.MovieService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class mainController {
+
 
 public mainController(){
     System.out.println("main controller is being called.");
 }
 
+    @Autowired
+    private MovieService movieService;
+
+///////////////GET/////////////////////////
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String initialWelcome(){
         System.out.println("inside welcome.call");
@@ -29,7 +35,7 @@ public mainController(){
     }
 
     @RequestMapping(value = "/addMovie", method = RequestMethod.GET)
-    public String addMovie(){
+    public String inputMovie(){
         System.out.println("inside addMovie");
 
         return "addMovie";
@@ -37,10 +43,23 @@ public mainController(){
     }
 
     @RequestMapping(value = "/addTheatre", method = RequestMethod.GET)
-    public String addTheatre(){
+    public String inputTheatre(){
         System.out.println("inside AddTheatre");
 
         return "addTheatre";
+
+    }
+
+
+    /////////////POST/////////////////////////
+
+    @PostMapping("/addMovie")
+    public String processMovieDetails(@ModelAttribute Movie movie){
+        System.out.println("inside addMovie");
+        System.out.println(movie);
+        movieService.saveMovie(movie);
+
+        return "redirect:/addMovie";
 
     }
 }

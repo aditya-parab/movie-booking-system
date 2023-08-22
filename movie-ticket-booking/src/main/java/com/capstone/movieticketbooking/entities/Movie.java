@@ -12,10 +12,51 @@ public class Movie {
 
     private String title;
     private String genre;
-    private int duration;
+    private double duration;
 
     @OneToMany(mappedBy = "movie")
     private List<MovieAuditorium> movieAuditoriums;
 
-    // Getters, setters, and other annotations
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public double getDuration() {
+        return duration;
+    }
+
+    public void setDuration(double duration) {
+        this.duration = duration;
+    }
+
+    public List<MovieAuditorium> getMovieAuditoriums() {
+        return movieAuditoriums;
+    }
+
+    public void setMovieAuditoriums(List<MovieAuditorium> movieAuditoriums) {
+        this.movieAuditoriums = movieAuditoriums;
+    }
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", genre='" + genre + '\'' +
+                ", duration=" + duration +
+                ", movieAuditoriums=" + movieAuditoriums +
+                '}';
+    }
 }

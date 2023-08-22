@@ -15,5 +15,28 @@ public class Theatre {
     @OneToMany(mappedBy = "theatre")
     private List<Auditorium> auditoriums;
 
-    // Getters, setters, and other annotations
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Auditorium> getAuditoriums() {
+        return auditoriums;
+    }
+
+    public void setAuditoriums(List<Auditorium> auditoriums) {
+        this.auditoriums = auditoriums;
+    }
+
+    @Override
+    public String toString() {
+        return "Theatre{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", auditoriums=" + auditoriums +
+                '}';
+    }
 }
