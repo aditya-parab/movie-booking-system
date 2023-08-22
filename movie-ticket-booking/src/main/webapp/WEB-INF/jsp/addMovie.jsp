@@ -1,0 +1,1 @@
+<h2>Welcome to Add Movie page!</h2>

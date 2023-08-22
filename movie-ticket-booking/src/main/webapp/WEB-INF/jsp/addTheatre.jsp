@@ -1,0 +1,1 @@
+<h2>Welcome to Add Theatre page!</h2>
