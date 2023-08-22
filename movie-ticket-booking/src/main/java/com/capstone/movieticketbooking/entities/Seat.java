@@ -10,13 +10,14 @@ public class Seat {
     private Long id;
 
     @ManyToOne
-    private MovieAuditorium movieAuditorium;
+    private Auditorium auditorium; // Relationship with Auditorium
 
     private Long seatIdentifier;
 
     @ManyToOne
-    private Booking booking; // One-to-many relationship with Booking
+    private Booking booking;
 
     // Getters, setters, and other annotations
 }
+
 

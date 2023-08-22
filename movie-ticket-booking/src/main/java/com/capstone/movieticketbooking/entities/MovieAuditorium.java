@@ -14,13 +14,14 @@ public class MovieAuditorium {
     private Movie movie;
 
     @ManyToOne
-    private Auditorium auditorium;
+    private Auditorium auditorium; // Relationship with Auditorium
+
+    private Long startTime;
+    private Long endTime;
 
     @OneToMany(mappedBy = "movieAuditorium")
     private List<Booking> bookings;
 
-    @OneToMany(mappedBy = "movieAuditorium")
-    private List<Seat> seats;
-
-    // Getters, setters, and other annotations
+    // Other fields, getters, setters, and other annotations
 }
+

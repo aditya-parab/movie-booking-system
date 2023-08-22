@@ -17,6 +17,10 @@ public class Auditorium {
     @OneToMany(mappedBy = "auditorium")
     private List<MovieAuditorium> movieAuditoriums;
 
+    @OneToMany(mappedBy = "auditorium")
+    private List<Seat> seats; // Relationship with Seat
+
     // Getters, setters, and other annotations
 }
+
 
