@@ -13,7 +13,7 @@
         <button><a href="/login">Login</a></button>
         <button><a href="/addMovie">Add Movie</a></button>
         <button><a href="/addTheatre">Add a Theatre</a></button>
-        <button><a href="/setMovie">Add a Movie Schedule</a></button>
+        <button><a href="/selectMovieAndAuditorium">Add a Movie Schedule</a></button>
     </body>
 
     </html>

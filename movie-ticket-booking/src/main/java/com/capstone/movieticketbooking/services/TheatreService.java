@@ -1,6 +1,7 @@
 package com.capstone.movieticketbooking.services;
 
 import com.capstone.movieticketbooking.entities.Auditorium;
+import com.capstone.movieticketbooking.entities.Movie;
 import com.capstone.movieticketbooking.entities.Seat;
 import com.capstone.movieticketbooking.entities.Theatre;
 import com.capstone.movieticketbooking.repository.AuditoriumRepository;
@@ -49,6 +50,10 @@ public class TheatreService {
 //        theatreRepository.save(theatre);
 //        return theatre;
 //    }
+
+    public List<Theatre> getAllTheatres() {
+        return theatreRepository.findAll();
+    }
 
     public Theatre processTheatre(String name, int noOfAuditoriums) {
         Theatre theatre = new Theatre();

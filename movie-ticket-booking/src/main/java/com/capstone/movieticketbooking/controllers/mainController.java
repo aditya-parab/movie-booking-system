@@ -61,11 +61,17 @@ private TheatreService theatreService;
 
     }
 
-    @RequestMapping(value = "/setMovie", method = RequestMethod.GET)
-    public String setMovie(){
-        System.out.println("inside setMovie");
+    @RequestMapping(value = "/selectMovieAndAuditorium", method = RequestMethod.GET)
+    public String setMovieSchedule(Model model){
+            List<Movie> movieList = movieService.getAllMovies();
+            List<Theatre> theatreList = theatreService.getAllTheatres();
+            model.addAttribute("movieList",movieList);
+            model.addAttribute("theatreList",theatreList);
 
-        return "setMovie";
+
+
+
+        return "selectMovieAndAuditorium";
 
     }
 
