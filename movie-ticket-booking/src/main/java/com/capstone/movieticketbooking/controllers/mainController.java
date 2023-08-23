@@ -84,6 +84,10 @@ public mainController(){
 
     }
 
+    @GetMapping("/selectAuditoriumAndTimings")
+    public String selectAuditoriumAndTimings()
+
+
 
 
 
@@ -115,11 +119,14 @@ public mainController(){
 
     @PostMapping("/selectMovieAndAuditorium")
     public String processMovieAndAuditorium(@RequestParam("movieChosenTitle") String movieChosenTitle,
-                                            @RequestParam("theatreChosenName") String theatreChosenName){
+                                            @RequestParam("theatreChosenName") String theatreChosenName,
+                                            Model model){
 
         Movie movie = movieRepository.findMovieByTitle(movieChosenTitle);
         Theatre theatre = theatreRepository.findTheatreByName(theatreChosenName);
-        System.out.println(movie+"\n"+theatre);
+        model.addAttribute("movie",movie);
+        model.addAttribute("theatre",theatre);
+
         return "selectAuditoriumAndTimings";
     }
 }
