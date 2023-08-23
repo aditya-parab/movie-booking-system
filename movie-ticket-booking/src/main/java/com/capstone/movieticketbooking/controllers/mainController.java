@@ -1,10 +1,18 @@
 package com.capstone.movieticketbooking.controllers;
 
+import com.capstone.movieticketbooking.entities.Auditorium;
 import com.capstone.movieticketbooking.entities.Movie;
+import com.capstone.movieticketbooking.entities.Theatre;
 import com.capstone.movieticketbooking.services.MovieService;
+import com.capstone.movieticketbooking.services.TheatreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class mainController {
@@ -16,6 +24,9 @@ public mainController(){
 
     @Autowired
     private MovieService movieService;
+
+@Autowired
+private TheatreService theatreService;
 
 ///////////////GET/////////////////////////
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -50,6 +61,16 @@ public mainController(){
 
     }
 
+    @RequestMapping(value = "/setMovie", method = RequestMethod.GET)
+    public String setMovie(){
+        System.out.println("inside setMovie");
+
+        return "setMovie";
+
+    }
+
+
+
 
     /////////////POST/////////////////////////
 
@@ -60,6 +81,20 @@ public mainController(){
         movieService.saveMovie(movie);
 
         return "redirect:/addMovie";
+
+    }
+
+    @PostMapping("/addTheatre")
+    public String processTheatreDetails(@RequestParam("name") String name,
+                                        @RequestParam("noOfAuditoriums") int noOfAuditoriums,
+                                        Model model
+                                        ){
+        System.out.println("inside AddTheatre POST");
+        theatreService.processTheatre(name,noOfAuditoriums);
+
+
+
+        return "redirect:/addTheatre";
 
     }
 }

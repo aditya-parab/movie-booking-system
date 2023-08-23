@@ -20,7 +20,56 @@ public class Auditorium {
     @OneToMany(mappedBy = "auditorium")
     private List<Seat> seats; // Relationship with Seat
 
-    // Getters, setters, and other annotations
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Theatre getTheatre() {
+        return theatre;
+    }
+
+    public void setTheatre(Theatre theatre) {
+        this.theatre = theatre;
+    }
+
+    public List<MovieAuditorium> getMovieAuditoriums() {
+        return movieAuditoriums;
+    }
+
+    public void setMovieAuditoriums(List<MovieAuditorium> movieAuditoriums) {
+        this.movieAuditoriums = movieAuditoriums;
+    }
+
+    public List<Seat> getSeats() {
+        return seats;
+    }
+
+    public void setSeats(List<Seat> seats) {
+        this.seats = seats;
+    }
+
+    @Override
+    public String toString() {
+        return "Auditorium{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", theatre=" + theatre +
+                ", movieAuditoriums=" + movieAuditoriums +
+                ", seats=" + seats +
+                '}';
+    }
 }
 
 

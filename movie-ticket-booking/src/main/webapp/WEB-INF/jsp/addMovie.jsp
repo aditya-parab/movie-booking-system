@@ -18,6 +18,7 @@
         <input type="number" name="duration" step="0.1" required><br><br>
 
         <input type="submit" value="Add Movie">
+        <button><a href="/">Home</a></button>
     </form>
 </body>
 
