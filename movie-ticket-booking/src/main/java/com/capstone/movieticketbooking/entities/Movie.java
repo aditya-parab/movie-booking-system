@@ -10,7 +10,9 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String title;
+
     private String genre;
     private double duration;
 
@@ -56,7 +58,6 @@ public class Movie {
                 ", title='" + title + '\'' +
                 ", genre='" + genre + '\'' +
                 ", duration=" + duration +
-                ", movieAuditoriums=" + movieAuditoriums +
                 '}';
     }
 }

@@ -3,6 +3,8 @@ package com.capstone.movieticketbooking.controllers;
 import com.capstone.movieticketbooking.entities.Auditorium;
 import com.capstone.movieticketbooking.entities.Movie;
 import com.capstone.movieticketbooking.entities.Theatre;
+import com.capstone.movieticketbooking.repository.MovieRepository;
+import com.capstone.movieticketbooking.repository.TheatreRepository;
 import com.capstone.movieticketbooking.services.MovieService;
 import com.capstone.movieticketbooking.services.TheatreService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +27,15 @@ public mainController(){
     @Autowired
     private MovieService movieService;
 
-@Autowired
-private TheatreService theatreService;
+    @Autowired
+    private TheatreService theatreService;
+
+    @Autowired
+    MovieRepository movieRepository;
+
+    @Autowired
+    TheatreRepository theatreRepository;
+
 
 ///////////////GET/////////////////////////
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -102,5 +111,15 @@ private TheatreService theatreService;
 
         return "redirect:/addTheatre";
 
+    }
+
+    @PostMapping("/selectMovieAndAuditorium")
+    public String processMovieAndAuditorium(@RequestParam("movieChosenTitle") String movieChosenTitle,
+                                            @RequestParam("theatreChosenName") String theatreChosenName){
+
+        Movie movie = movieRepository.findMovieByTitle(movieChosenTitle);
+        Theatre theatre = theatreRepository.findTheatreByName(theatreChosenName);
+        System.out.println(movie+"\n"+theatre);
+        return "selectAuditoriumAndTimings";
     }
 }

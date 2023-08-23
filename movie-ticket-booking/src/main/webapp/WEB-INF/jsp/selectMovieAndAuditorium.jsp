@@ -26,20 +26,20 @@
 
         <p>
             Movie:
-        <form method="POST" action="/chooseexam">
-            <select name="movieChosen">
+        <form method="POST" action="/selectMovieAndAuditorium">
+            <select name="movieChosenTitle">
                 <c:forEach items="${movieList}" var="movie">
                     <option>${movie.title}</option>
                 </c:forEach>
             </select>
             <br>
             Theatre:
-            <select name="theatreChosen">
+            <select name="theatreChosenName">
                 <c:forEach items="${theatreList}" var="theatre">
                     <option>${theatre.name}</option>
                 </c:forEach>
             </select>
-            <input type="submit" value="Submit">
+            <input type="submit" value="Next">
         </form>
 
         </p>
