@@ -1,4 +1,5 @@
 package com.capstone.movieticketbooking.entities;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.*;
 
@@ -15,9 +16,11 @@ public class Auditorium {
     private Theatre theatre;
 
     @OneToMany(mappedBy = "auditorium", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<MovieAuditorium> movieAuditoriums;
 
     @OneToMany(mappedBy = "auditorium",fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Seat> seats; // Relationship with Seat
 
     public Long getId() {

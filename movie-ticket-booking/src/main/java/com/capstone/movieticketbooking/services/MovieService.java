@@ -12,6 +12,14 @@ public class MovieService {
     @Autowired
     private MovieRepository movieRepository;
 
+    public Movie createMovie(String genre,String title){
+        Movie movie = new Movie();
+        movie.setTitle(title);
+        movie.setGenre(genre);
+        movieRepository.save(movie);
+        return movie;
+
+    }
     public Movie saveMovie(Movie movie) {
         return movieRepository.save(movie);
     }

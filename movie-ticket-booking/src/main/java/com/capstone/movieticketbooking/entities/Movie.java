@@ -1,4 +1,5 @@
 package com.capstone.movieticketbooking.entities;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.*;
 
@@ -17,6 +18,7 @@ public class Movie {
 
 
     @OneToMany(mappedBy = "movie")
+    @JsonIgnore
     private List<MovieAuditorium> movieAuditoriums;
 
     public String getTitle() {

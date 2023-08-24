@@ -120,10 +120,11 @@ public mainController(){
     /////////////POST/////////////////////////
 
     @PostMapping("/addMovie")
-    public String processMovieDetails(@ModelAttribute Movie movie){
+    public String processMovieDetails(@RequestParam("genre") String genre, @RequestParam("title") String title){
+
         System.out.println("inside addMovie");
-        System.out.println(movie);
-        movieService.saveMovie(movie);
+        movieService.createMovie(genre,title);
+
 
         return "redirect:/addMovie";
 
