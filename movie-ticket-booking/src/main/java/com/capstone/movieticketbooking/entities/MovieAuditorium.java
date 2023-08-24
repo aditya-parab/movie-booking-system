@@ -16,12 +16,69 @@ public class MovieAuditorium {
     @ManyToOne
     private Auditorium auditorium; // Relationship with Auditorium
 
-    private Long startTime;
-    private Long endTime;
+    private Double startTime;
+    private Double endTime;
 
     @OneToMany(mappedBy = "movieAuditorium")
     private List<Booking> bookings;
 
-    // Other fields, getters, setters, and other annotations
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
+
+    public Auditorium getAuditorium() {
+        return auditorium;
+    }
+
+    public void setAuditorium(Auditorium auditorium) {
+        this.auditorium = auditorium;
+    }
+
+    public Double getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Double startTime) {
+        this.startTime = startTime;
+    }
+
+    public Double getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Double endTime) {
+        this.endTime = endTime;
+    }
+
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
+    }
+
+    @Override
+    public String toString() {
+        return "MovieAuditorium{" +
+                "id=" + id +
+                ", movie=" + movie +
+                ", auditorium=" + auditorium +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                '}';
+    }
 }
 

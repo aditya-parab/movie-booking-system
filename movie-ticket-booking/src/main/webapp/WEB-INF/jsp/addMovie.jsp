@@ -14,8 +14,6 @@
         <label for="genre">Genre:</label>
         <input type="text" id="genre" name="genre" required><br><br>
 
-        <label for="duration">Duration (hours):</label>
-        <input type="number" name="duration" step="0.1" required><br><br>
 
         <input type="submit" value="Add Movie">
         <button><a href="/">Home</a></button>

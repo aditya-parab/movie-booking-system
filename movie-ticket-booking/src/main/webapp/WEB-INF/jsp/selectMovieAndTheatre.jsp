@@ -26,7 +26,7 @@
 
         <p>
             Movie:
-        <form method="POST" action="/selectMovieAndAuditorium">
+        <form method="POST" action="/selectMovieAndTheatre">
             <select name="movieChosenTitle">
                 <c:forEach items="${movieList}" var="movie">
                     <option>${movie.title}</option>
@@ -42,6 +42,7 @@
             <input type="submit" value="Next">
         </form>
 
+        <button><a href="/">Home</a></button>
         </p>
 
 

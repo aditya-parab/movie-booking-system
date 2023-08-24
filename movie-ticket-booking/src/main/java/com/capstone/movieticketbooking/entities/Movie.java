@@ -14,7 +14,7 @@ public class Movie {
     private String title;
 
     private String genre;
-    private double duration;
+
 
     @OneToMany(mappedBy = "movie")
     private List<MovieAuditorium> movieAuditoriums;
@@ -35,13 +35,7 @@ public class Movie {
         this.genre = genre;
     }
 
-    public double getDuration() {
-        return duration;
-    }
 
-    public void setDuration(double duration) {
-        this.duration = duration;
-    }
 
     public List<MovieAuditorium> getMovieAuditoriums() {
         return movieAuditoriums;
@@ -57,7 +51,6 @@ public class Movie {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", genre='" + genre + '\'' +
-                ", duration=" + duration +
                 '}';
     }
 }

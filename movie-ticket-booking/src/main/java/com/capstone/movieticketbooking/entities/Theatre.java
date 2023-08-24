@@ -13,7 +13,7 @@ public class Theatre {
     @Column(unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "theatre")
+    @OneToMany(mappedBy = "theatre",fetch = FetchType.EAGER)
     private List<Auditorium> auditoriums;
 
     public String getName() {

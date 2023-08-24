@@ -14,10 +14,10 @@ public class Auditorium {
     @ManyToOne
     private Theatre theatre;
 
-    @OneToMany(mappedBy = "auditorium")
+    @OneToMany(mappedBy = "auditorium", fetch = FetchType.EAGER)
     private List<MovieAuditorium> movieAuditoriums;
 
-    @OneToMany(mappedBy = "auditorium")
+    @OneToMany(mappedBy = "auditorium",fetch = FetchType.EAGER)
     private List<Seat> seats; // Relationship with Seat
 
     public Long getId() {
@@ -66,8 +66,6 @@ public class Auditorium {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", theatre=" + theatre +
-                ", movieAuditoriums=" + movieAuditoriums +
-                ", seats=" + seats +
                 '}';
     }
 }
