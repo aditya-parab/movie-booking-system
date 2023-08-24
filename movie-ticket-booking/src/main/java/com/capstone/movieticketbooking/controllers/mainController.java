@@ -1,15 +1,13 @@
 package com.capstone.movieticketbooking.controllers;
 
-import com.capstone.movieticketbooking.entities.Auditorium;
-import com.capstone.movieticketbooking.entities.Movie;
-import com.capstone.movieticketbooking.entities.MovieAuditorium;
-import com.capstone.movieticketbooking.entities.Theatre;
+import com.capstone.movieticketbooking.entities.*;
 import com.capstone.movieticketbooking.repository.AuditoriumRepository;
 import com.capstone.movieticketbooking.repository.MovieRepository;
 import com.capstone.movieticketbooking.repository.TheatreRepository;
 import com.capstone.movieticketbooking.services.MovieAuditoriumService;
 import com.capstone.movieticketbooking.services.MovieService;
 import com.capstone.movieticketbooking.services.TheatreService;
+import com.capstone.movieticketbooking.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@SessionAttributes({"movie","theatre"})
+@SessionAttributes({"movie","theatre","movieList","theatreList"})
 public class mainController {
 
 
@@ -47,6 +45,8 @@ public mainController(){
     @Autowired
     MovieAuditoriumService movieAuditoriumService;
 
+    @Autowired
+    UserService userService;
 
 ///////////////GET/////////////////////////
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -113,6 +113,35 @@ public mainController(){
 
     }
 
+    @GetMapping("/makeBookingSelectMovie")
+    public String makeBookingSelectMovie(Model model){
+        List<Movie> movieList = movieService.getAllMovies();
+
+        model.addAttribute("movieList",movieList);
+
+        return "makeBookingSelectMovie";
+    }
+
+    @GetMapping("makeBookingSelectTheatre")
+    public String makeBookingSelectTheatre(@ModelAttribute("movie") Movie movie,
+                                           Model model){
+        System.out.println(movie);
+        //show all theatres showing that movie, and the timings
+        List<MovieAuditorium> movieAuditoriums = movie.getMovieAuditoriums();
+        List<Theatre> theatreList = new ArrayList<>();
+        for(MovieAuditorium movieAuditorium: movieAuditoriums){
+            theatreList.add(movieAuditorium.getAuditorium().getTheatre());
+        }
+
+        model.addAttribute("theatreList",theatreList);
+
+
+
+        return "makeBookingSelectTheatre";
+    }
+
+
+
 
 
 
@@ -169,5 +198,27 @@ public mainController(){
        MovieAuditorium movieAuditorium = movieAuditoriumService.processMovieAuditorium(movie, auditorium, startTime, endTime);
         System.out.println(movieAuditorium);
         return "redirect:/selectAuditoriumAndTimings";
+    }
+
+    @PostMapping("/login")
+    public String authenticateLogin(@RequestParam("username") String username,
+                                    @RequestParam("password") String password
+                                    ){
+        User user = userService.authenticateUser(username,password);
+
+        if(user.getFirstName()==null){
+            return "welcome";
+        }
+
+
+        return "redirect:/makeBookingSelectMovie";
+    }
+
+    @PostMapping("/makeBookingSelectMovie")
+    public String processMakeBookingSelectMovie(@RequestParam("movieChosenTitle") String movieChosenTitle
+    ,Model model){
+        Movie movie = movieRepository.findMovieByTitle(movieChosenTitle);
+        model.addAttribute("movie",movie);
+        return "redirect:/makeBookingSelectTheatre";
     }
 }

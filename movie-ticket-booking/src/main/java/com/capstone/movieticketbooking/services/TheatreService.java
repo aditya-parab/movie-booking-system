@@ -63,7 +63,8 @@ public class TheatreService {
 
         for (int i = 1; i <= noOfAuditoriums; i++) {
             Auditorium auditorium = new Auditorium();
-            auditorium.setName("Auditorium " + i);
+            System.out.println(auditorium.getId());
+            auditorium.setName("Auditorium " + i  +" - "+theatre.getName());
             auditorium.setTheatre(theatre);
             auditoriumRepository.save(auditorium); // Save the auditorium first
 

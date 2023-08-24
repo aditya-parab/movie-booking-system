@@ -17,7 +17,7 @@ public class Movie {
     private String genre;
 
 
-    @OneToMany(mappedBy = "movie")
+    @OneToMany(mappedBy = "movie",fetch = FetchType.EAGER)
     @JsonIgnore
     private List<MovieAuditorium> movieAuditoriums;
 
