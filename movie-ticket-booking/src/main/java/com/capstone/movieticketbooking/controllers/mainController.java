@@ -4,10 +4,7 @@ import com.capstone.movieticketbooking.entities.*;
 import com.capstone.movieticketbooking.repository.AuditoriumRepository;
 import com.capstone.movieticketbooking.repository.MovieRepository;
 import com.capstone.movieticketbooking.repository.TheatreRepository;
-import com.capstone.movieticketbooking.services.MovieAuditoriumService;
-import com.capstone.movieticketbooking.services.MovieService;
-import com.capstone.movieticketbooking.services.TheatreService;
-import com.capstone.movieticketbooking.services.UserService;
+import com.capstone.movieticketbooking.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,9 +14,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
-@SessionAttributes({"movie","theatre","movieList","theatreList"})
+@SessionAttributes({"movie","theatre","movieList","theatreList","filteredMovieAuditoriums","user"})
 public class mainController {
 
 
@@ -47,6 +45,10 @@ public mainController(){
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    BookingService bookingService;
+
 
 ///////////////GET/////////////////////////
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -140,6 +142,56 @@ public mainController(){
         return "makeBookingSelectTheatre";
     }
 
+    @GetMapping("/selectBookingTime")
+    public String selectBookingTimeAndNoOfSeats(@ModelAttribute("theatre") Theatre theatre,
+                                                @ModelAttribute("movie") Movie movie,
+                                                Model model){
+
+        System.out.println(movie);
+        System.out.println(theatre);
+   List<MovieAuditorium> filteredMovieAuditoriums=  movie.getMovieAuditoriums()
+                .stream()
+                .filter(movieAuditorium -> movieAuditorium.getAuditorium().getTheatre().getName().equals(theatre.getName()))
+           .collect(Collectors.toList());
+
+        System.out.println(filteredMovieAuditoriums);
+
+   List<String> startTimes=new ArrayList<>();
+   for(MovieAuditorium movieAuditorium:filteredMovieAuditoriums){
+       startTimes.add(movieAuditorium.getStartTime().toString());
+   }
+
+        System.out.println(startTimes);
+   model.addAttribute("filteredMovieAuditoriums",filteredMovieAuditoriums);
+   model.addAttribute("startTimes",startTimes);
+
+        return "selectBookingTime";
+    }
+
+
+//    @GetMapping("/selectBookingSeats")
+//    public String selectBookingSeats(@ModelAttribute("availableSeats") List<Seat> availableSeats,
+//                                     Model model){
+//        model.addAttribute("availableSeats",availableSeats);
+//        return "selectBookingSeats";
+//    }
+
+
+    @GetMapping("/selectBookingSeats")
+    public String selectBookingSeats(@ModelAttribute("availableSeats") List<Seat> availableSeats, Model model) {
+
+
+        if (availableSeats != null) {
+            model.addAttribute("availableSeats", availableSeats);
+            return "selectBookingSeats";
+        } else {
+            // Handle the case where availableSeats is null
+            // Redirect to an appropriate page or display an error message
+            return "redirect:/selectBookingTime";
+        }
+    }
+
+
 
 
 
@@ -202,13 +254,15 @@ public mainController(){
 
     @PostMapping("/login")
     public String authenticateLogin(@RequestParam("username") String username,
-                                    @RequestParam("password") String password
-                                    ){
+                                    @RequestParam("password") String password,
+                                    Model model){
         User user = userService.authenticateUser(username,password);
-
+        model.addAttribute("user",user);
         if(user.getFirstName()==null){
             return "welcome";
         }
+
+
 
 
         return "redirect:/makeBookingSelectMovie";
@@ -221,4 +275,74 @@ public mainController(){
         model.addAttribute("movie",movie);
         return "redirect:/makeBookingSelectTheatre";
     }
+
+    @PostMapping("makeBookingSelectTheatre")
+    public String processBookingSelectTheatre(@RequestParam("theatreChosenName") String theatreChosenName,
+                                              Model model){
+        Theatre theatre = theatreRepository.findTheatreByName(theatreChosenName);
+        model.addAttribute("theatre",theatre);
+
+
+        return "redirect:/selectBookingTime";
+    }
+
+//    @PostMapping("/selectBookingTime")
+//    public String processBookingTime(@RequestParam("selectedStartTime") String selectedStartTime,
+//                                     @ModelAttribute("filteredMovieAuditoriums") List<MovieAuditorium> filteredMovieAuditoriums,
+//                                     Model model){
+//        List<Seat> availableSeats = new ArrayList<>();
+//        for(MovieAuditorium movieAuditorium:filteredMovieAuditoriums){
+//            if(movieAuditorium.getStartTime().toString().equals(selectedStartTime)){
+//                List<Seat> allSeats = movieAuditorium.getAuditorium().getSeats();
+//                List<Seat> bookedSeats = new ArrayList<>();
+//                for(Booking booking: movieAuditorium.getBookings()){
+//                    bookedSeats.addAll(booking.getBookedSeats());
+//                }
+//                availableSeats.addAll(allSeats);
+//                availableSeats.removeAll(bookedSeats);
+//
+//            }
+//        }
+//        System.out.println("BEFORE \n"+availableSeats);
+//        model.addAttribute("availableSeats",availableSeats);
+//        return "redirect:/selectBookingSeats";
+//    }
+
+    @PostMapping("/selectBookingTime")
+    public String processBookingTime(@RequestParam("selectedStartTime") String selectedStartTime,
+                                     @ModelAttribute("filteredMovieAuditoriums") List<MovieAuditorium> filteredMovieAuditoriums,
+                                     RedirectAttributes redirectAttributes) {
+        List<Seat> availableSeats = new ArrayList<>();
+        for (MovieAuditorium movieAuditorium : filteredMovieAuditoriums) {
+            if (movieAuditorium.getStartTime().toString().equals(selectedStartTime)) {
+                List<Seat> allSeats = movieAuditorium.getAuditorium().getSeats();
+                List<Seat> bookedSeats = new ArrayList<>();
+                for (Booking booking : movieAuditorium.getBookings()) {
+                    bookedSeats.addAll(booking.getBookedSeats());
+                }
+                availableSeats.addAll(allSeats);
+                availableSeats.removeAll(bookedSeats);
+
+                // Store availableSeats in RedirectAttributes
+                redirectAttributes.addFlashAttribute("availableSeats", availableSeats);
+
+                return "redirect:/selectBookingSeats";
+            }
+        }
+
+        // Handle case where no valid MovieAuditorium was found
+        return "redirect:/selectBookingTime"; // Redirect to an appropriate page
+    }
+
+    @PostMapping("selectBookingSeats")
+    public String processBookingSeat(@RequestParam("seatChosen") Seat seatChosen,
+                                     @ModelAttribute("user") User user,
+                                     @ModelAttribute("movie") Movie movie,
+                                     @ModelAttribute("theatre") Theatre theatre){
+
+        bookingService.processBooking(seatChosen,  user,  movie, theatre);
+
+        return "welcome";
+    }
+
 }

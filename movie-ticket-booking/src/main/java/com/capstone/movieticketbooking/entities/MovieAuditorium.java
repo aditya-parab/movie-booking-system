@@ -19,7 +19,7 @@ public class MovieAuditorium {
     private Double startTime;
     private Double endTime;
 
-    @OneToMany(mappedBy = "movieAuditorium")
+    @OneToMany(mappedBy = "movieAuditorium",fetch = FetchType.EAGER)
     private List<Booking> bookings;
 
     public Long getId() {
