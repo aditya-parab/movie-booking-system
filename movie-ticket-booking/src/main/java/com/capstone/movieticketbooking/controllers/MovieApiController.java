@@ -20,6 +20,8 @@ public class MovieApiController {
     @Autowired
     private MovieRepository movieRepository;
 
+
+    //get all movies
     @GetMapping
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)

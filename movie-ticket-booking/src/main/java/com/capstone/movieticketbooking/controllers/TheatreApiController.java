@@ -22,14 +22,17 @@ public class TheatreApiController {
     @Autowired
     private TheatreRepository theatreRepository;
 
+
+    //get all theatres
     @GetMapping
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public List<Theatre> getAllMovies() {
+    public List<Theatre> getAllTheatres() {
         List<Theatre> theatres = theatreRepository.findAll();
         return theatres;
     }
 
+    //get all auditoriums associated with a theatre
     @GetMapping("/{theatreName}/auditoriums")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
